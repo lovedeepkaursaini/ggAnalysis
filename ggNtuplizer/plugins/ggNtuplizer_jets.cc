@@ -27,22 +27,22 @@ vector<int>    jetPartonID_;
 vector<bool>   jetPFLooseId_;
 
 //SubJet
-Int_t          nCA8Jet_;
-vector<float>  CA8JetPt_;
-vector<float>  CA8JetEta_;
-vector<float>  CA8JetPhi_;
-vector<float>  CA8JetMass_;
-vector<float>  CA8JetArea_;
-vector<float>  CA8Jet_tau1_;
-vector<float>  CA8Jet_tau2_;
-vector<float>  CA8Jet_tau3_;
-vector<float>  CA8JetCHF_;
-vector<float>  CA8JetNHF_;
-vector<float>  CA8JetCEF_;
-vector<float>  CA8JetNEF_;
-vector<int>    CA8JetNCH_;
-vector<int>    CA8Jetnconstituents_;
-vector<float>  CA8prunedJetMass_;
+Int_t          nAK8Jet_;
+vector<float>  AK8JetPt_;
+vector<float>  AK8JetEta_;
+vector<float>  AK8JetPhi_;
+vector<float>  AK8JetMass_;
+vector<float>  AK8JetArea_;
+vector<float>  AK8Jet_tau1_;
+vector<float>  AK8Jet_tau2_;
+vector<float>  AK8Jet_tau3_;
+vector<float>  AK8JetCHF_;
+vector<float>  AK8JetNHF_;
+vector<float>  AK8JetCEF_;
+vector<float>  AK8JetNEF_;
+vector<int>    AK8JetNCH_;
+vector<int>    AK8Jetnconstituents_;
+vector<float>  AK8CHSSoftDropJetMass_;
 
 void ggNtuplizer::branchesJets(TTree* tree)
 {
@@ -70,22 +70,22 @@ void ggNtuplizer::branchesJets(TTree* tree)
 
   // SubJet
   if (dumpSubJets_) {
-    tree->Branch("nCA8Jet",             &nCA8Jet_);
-    tree->Branch("CA8JetPt",            &CA8JetPt_);
-    tree->Branch("CA8JetEta",           &CA8JetEta_);
-    tree->Branch("CA8JetPhi",           &CA8JetPhi_);
-    tree->Branch("CA8JetMass",          &CA8JetMass_);
-    tree->Branch("CA8JetArea",          &CA8JetArea_);
-    tree->Branch("CA8Jet_tau1",         &CA8Jet_tau1_);
-    tree->Branch("CA8Jet_tau2",         &CA8Jet_tau2_);
-    tree->Branch("CA8Jet_tau3",         &CA8Jet_tau3_);
-    tree->Branch("CA8JetCHF",           &CA8JetCHF_);
-    tree->Branch("CA8JetNHF",           &CA8JetNHF_);
-    tree->Branch("CA8JetCEF",           &CA8JetCEF_);
-    tree->Branch("CA8JetNEF",           &CA8JetNEF_);
-    tree->Branch("CA8JetNCH",           &CA8JetNCH_);
-    tree->Branch("CA8Jetnconstituents", &CA8Jetnconstituents_);
-    tree->Branch("CA8prunedJetMass",    &CA8prunedJetMass_);
+    tree->Branch("nAK8Jet",             &nAK8Jet_);
+    tree->Branch("AK8JetPt",            &AK8JetPt_);
+    tree->Branch("AK8JetEta",           &AK8JetEta_);
+    tree->Branch("AK8JetPhi",           &AK8JetPhi_);
+    tree->Branch("AK8JetMass",          &AK8JetMass_);
+    tree->Branch("AK8JetArea",          &AK8JetArea_);
+    tree->Branch("AK8Jet_tau1",         &AK8Jet_tau1_);
+    tree->Branch("AK8Jet_tau2",         &AK8Jet_tau2_);
+    tree->Branch("AK8Jet_tau3",         &AK8Jet_tau3_);
+    tree->Branch("AK8JetCHF",           &AK8JetCHF_);
+    tree->Branch("AK8JetNHF",           &AK8JetNHF_);
+    tree->Branch("AK8JetCEF",           &AK8JetCEF_);
+    tree->Branch("AK8JetNEF",           &AK8JetNEF_);
+    tree->Branch("AK8JetNCH",           &AK8JetNCH_);
+    tree->Branch("AK8Jetnconstituents", &AK8Jetnconstituents_);
+    tree->Branch("AK8CHSSoftDropJetMass",    &AK8CHSSoftDropJetMass_);
   }
 
 }
@@ -116,26 +116,26 @@ void ggNtuplizer::fillJets(const edm::Event& e)
   jetPFLooseId_                           .clear();
 
   // SubJet
-  CA8JetPt_           .clear();
-  CA8JetEta_          .clear();
-  CA8JetPhi_          .clear();
-  CA8JetMass_         .clear();
-  CA8JetArea_         .clear();
-  CA8Jet_tau1_        .clear();
-  CA8Jet_tau2_        .clear();
-  CA8Jet_tau3_        .clear();
-  CA8JetCHF_          .clear();
-  CA8JetNHF_          .clear();
-  CA8JetCEF_          .clear();
-  CA8JetNEF_          .clear();
-  CA8JetNCH_          .clear();
-  CA8Jetnconstituents_.clear();
-  CA8prunedJetMass_   .clear();
+  AK8JetPt_           .clear();
+  AK8JetEta_          .clear();
+  AK8JetPhi_          .clear();
+  AK8JetMass_         .clear();
+  AK8JetArea_         .clear();
+  AK8Jet_tau1_        .clear();
+  AK8Jet_tau2_        .clear();
+  AK8Jet_tau3_        .clear();
+  AK8JetCHF_          .clear();
+  AK8JetNHF_          .clear();
+  AK8JetCEF_          .clear();
+  AK8JetNEF_          .clear();
+  AK8JetNCH_          .clear();
+  AK8Jetnconstituents_.clear();
+  AK8CHSSoftDropJetMass_   .clear();
 
   nJet_ = 0;
 
   edm::Handle<edm::View<pat::Jet> > jetHandle;
-  e.getByToken(jetCollection_, jetHandle);
+  e.getByToken(jetsAK4Label_, jetHandle);
 
   if (!jetHandle.isValid()) {
     edm::LogWarning("ggNtuplizer") << "no pat::Jets (AK4) in event";
@@ -155,17 +155,17 @@ void ggNtuplizer::fillJets(const edm::Event& e)
     jetHFHAE_.push_back( iJet->HFHadronEnergy());
     jetHFEME_.push_back( iJet->HFEMEnergy());
     jetNCH_.push_back(   iJet->chargedMultiplicity());
-  //  jetNConstituents_.push_back(iJet->getPFConstituents().size());
+    jetNConstituents_.push_back(iJet->numberOfDaughters());
     //b-tagging
-    jetCombinedSecondaryVtxBJetTags_.push_back(iJet->bDiscriminator("pfcombinedSecondaryVertexBJetTags"));
-/*    jetJetProbabilityBJetTags_.push_back(iJet->bDiscriminator("jetProbabilityBJetTags"));
-    jetJetBProbabilityBJetTags_.push_back(iJet->bDiscriminator("jetBProbabilityBJetTags"));
-    jetTrackCountingHighPurBJetTags_.push_back(iJet->bDiscriminator("trackCountingHighPurBJetTags"));
-    jetTrackCountingHighEffBJetTags_.push_back(iJet->bDiscriminator("trackCountingHighEffBJetTags"));
-    jetSimpleSecondaryVertexHighEffBJetTags_.push_back(iJet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-    jetSimpleSecondaryVertexHighPurBJetTags_.push_back(iJet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-  */
-  //parton id
+    jetCombinedSecondaryVtxBJetTags_.push_back(iJet->bDiscriminator("combinedSecondaryVertexBJetTags"));
+    jetJetProbabilityBJetTags_.push_back(iJet->bDiscriminator("pfJetProbabilityBJetTags"));
+    jetJetBProbabilityBJetTags_.push_back(iJet->bDiscriminator("pfJetBProbabilityBJetTags"));
+    jetTrackCountingHighPurBJetTags_.push_back(iJet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
+    jetTrackCountingHighEffBJetTags_.push_back(iJet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
+    jetSimpleSecondaryVertexHighEffBJetTags_.push_back(iJet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+    jetSimpleSecondaryVertexHighPurBJetTags_.push_back(iJet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+  
+    //parton id
     jetPartonID_.push_back(iJet->partonFlavour());
     //jet PF Loose ID
     pat::strbitset retjet = pfLooseId_.getBitTemplate();
@@ -174,42 +174,42 @@ void ggNtuplizer::fillJets(const edm::Event& e)
   }
 
   if(dumpSubJets_) {
-    edm::Handle<edm::View<pat::Jet> > jetsCHS;
-    e.getByToken(jetsCHSLabel_, jetsCHS);
+    edm::Handle<edm::View<pat::Jet> > jetsAK8;
+    e.getByToken(jetsAK8Label_, jetsAK8);
 
-    if (!jetsCHS.isValid()) {
-      edm::LogWarning("ggNtuplizer") << "no pat::Jets (AK8CHS) in event";
+    if (!jetsAK8.isValid()) {
+      edm::LogWarning("ggNtuplizer") << "no pat::Jets (AK8AK8) in event";
       return;
     }
 
-    nCA8Jet_ = 0;
+    nAK8Jet_ = 0;
     //jet substructure
 
-    edm::View<pat::Jet>::const_iterator beginCHS = jetsCHS->begin();
-    edm::View<pat::Jet>::const_iterator endCHS = jetsCHS->end();
-    edm::View<pat::Jet>::const_iterator ijetCHS = beginCHS;
+    edm::View<pat::Jet>::const_iterator beginAK8 = jetsAK8->begin();
+    edm::View<pat::Jet>::const_iterator endAK8 = jetsAK8->end();
+    edm::View<pat::Jet>::const_iterator ijetAK8 = beginAK8;
 
     // Loop over the "hard" jets
-    for(ijetCHS = beginCHS; ijetCHS != endCHS; ++ijetCHS ) {
-     // if( ijetCHS->pt() < 30.0 ) continue;
-	cout<<ijetCHS->pt() <<endl;
-      nCA8Jet_++;
-      CA8JetPt_.push_back( ijetCHS->pt() );
-      CA8JetEta_.push_back( ijetCHS->eta() );
-      CA8JetPhi_.push_back( ijetCHS->phi() );
-      CA8JetMass_.push_back( ijetCHS->mass() );
-      CA8Jet_tau1_.push_back( ijetCHS->userFloat("NjettinessAK8CHS:tau1") );
-      CA8Jet_tau2_.push_back( ijetCHS->userFloat("NjettinessAK8CHS:tau2") );
-      CA8Jet_tau3_.push_back( ijetCHS->userFloat("NjettinessAK8CHS:tau3") );
-cout<<"tau1: "<<ijetCHS->userFloat("NjettinessAK8CHS:tau1") <<endl;
-      CA8JetCHF_.push_back( ijetCHS->chargedHadronEnergyFraction()); // 0.0
-      CA8JetNHF_.push_back( ( ijetCHS->neutralHadronEnergy() + ijetCHS->HFHadronEnergy() ) / ijetCHS->energy()); //0.99
-      CA8JetCEF_.push_back( ijetCHS->chargedEmEnergyFraction()); //0.99
-      CA8JetNEF_.push_back( ijetCHS->neutralEmEnergyFraction()); //0.99
-      CA8JetNCH_.push_back( ijetCHS->chargedMultiplicity()); //0
-      CA8Jetnconstituents_.push_back( ijetCHS->numberOfDaughters()); //1
-      CA8prunedJetMass_.push_back(ijetCHS->userFloat("ak8PFJetsCHSSoftDropMass"));
-cout<<"mass: "<<ijetCHS->userFloat("ak8PFJetsCHSSoftDropMass")<<endl;
+    for(ijetAK8 = beginAK8; ijetAK8 != endAK8; ++ijetAK8 ) {
+      if( ijetAK8->pt() < 30.0 ) continue;
+
+      nAK8Jet_++;
+      AK8JetPt_.push_back( ijetAK8->pt() );
+      AK8JetEta_.push_back( ijetAK8->eta() );
+      AK8JetPhi_.push_back( ijetAK8->phi() );
+      AK8JetMass_.push_back( ijetAK8->mass() );
+      AK8Jet_tau1_.push_back( ijetAK8->userFloat("NjettinessAK8:tau1") );
+      AK8Jet_tau2_.push_back( ijetAK8->userFloat("NjettinessAK8:tau2") );
+      AK8Jet_tau3_.push_back( ijetAK8->userFloat("NjettinessAK8:tau3") );
+
+      AK8JetCHF_.push_back( ijetAK8->chargedHadronEnergyFraction()); // 0.0
+      AK8JetNHF_.push_back( ( ijetAK8->neutralHadronEnergy() + ijetAK8->HFHadronEnergy() ) / ijetAK8->energy()); //0.99
+      AK8JetCEF_.push_back( ijetAK8->chargedEmEnergyFraction()); //0.99
+      AK8JetNEF_.push_back( ijetAK8->neutralEmEnergyFraction()); //0.99
+      AK8JetNCH_.push_back( ijetAK8->chargedMultiplicity()); //0
+      AK8Jetnconstituents_.push_back( ijetAK8->numberOfDaughters()); //1  
+      AK8CHSSoftDropJetMass_.push_back(ijetAK8->userFloat("ak8PFJetsCHSSoftDropMass"));
+
     }
   }
 }
