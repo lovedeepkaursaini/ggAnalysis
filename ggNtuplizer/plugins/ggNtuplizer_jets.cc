@@ -663,13 +663,10 @@ void ggNtuplizer::fillJets(const edm::Event& e, const edm::EventSetup& es) {
       ijetRef++;
       if( ijetAK8->pt() < 30.0 ) continue;
       nAK8Jet_++;
-      AK8JetPt_.push_back( ijetAK8->pt() );
-      AK8JetEn_.push_back( ijetAK8->energy() );
       AK8JetRawPt_.push_back( (*ijetAK8).correctedJet("Uncorrected").pt() );
       AK8JetRawEn_.push_back( (*ijetAK8).correctedJet("Uncorrected").energy() );
       AK8JetEta_.push_back( ijetAK8->eta() );
       AK8JetPhi_.push_back( ijetAK8->phi() );
-      AK8JetMass_.push_back( ijetAK8->mass() );
       AK8Jet_tau1_.push_back( ijetAK8->userFloat("NjettinessAK8:tau1") );
       AK8Jet_tau2_.push_back( ijetAK8->userFloat("NjettinessAK8:tau2") );
       AK8Jet_tau3_.push_back( ijetAK8->userFloat("NjettinessAK8:tau3") );
